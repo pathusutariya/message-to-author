@@ -15,18 +15,15 @@
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 require 'admin/admin.php';
-require 'Class/Message.php';
 require 'functions/functions.php';
 
 // On Active plugin   creation of database table
 register_activation_hook( __FILE__ , 'm2a_activate' );
-// asking for deleting database table 
+
+
 // this function is postponded to next version
 register_uninstall_hook( __FILE__ , 'm2a_uninstall' );
 
-add_action('init', 'afdasdasdsedfvtrhgjwgvdhcjkiqwwfeduy');
-function afdasdasdsedfvtrhgjwgvdhcjkiqwwfeduy(){
-}
 function vardump($input){
 	echo '<pre>';
 	print_r($input);

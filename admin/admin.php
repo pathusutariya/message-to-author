@@ -1,48 +1,6 @@
 <?php defined('ABSPATH') or die('No script kiddies please!'); ?>
 <?php
 
-// for future use
-function m2a_uninstall() {
-    //option for dropping table
-}
-
-function m2a_admin_settings_page() {
-    add_menu_page('message to author', 'm2a', 'edit_posts', 'm2a-message', 'm2a_messagePage', 'dashicons-email', 80);
-    add_submenu_page('m2a-message', 'Message to author Settings', 'Settings', 'manage_options', 'm2a-settings', 'm2a_settings');
-}
-add_action('admin_menu', 'm2a_admin_settings_page');
-
-
-//render all html table
-function m2a_messagePage() {
-    global $wpdb;
-    $table_name      = $wpdb->prefix . 'm2a_message';
-    $userid = get_current_user_id();
-    
-    if(get_userdata($userid)->roles[0] == 'administrator'){
-        $messages = $wpdb->get_results( "SELECT * FROM $table_name" );
-    }elseif(get_userdata($userid)->roles[0] == 'author'){
-        $messages = $wpdb->get_results( "SELECT * FROM $table_name WHERE author_id = $userid" );
-    }
-    
-    
-    require 'admin_message.php';
-}
-
-
-
-//setting option page setting
-function m2a_register_settings() {
-    register_setting('m2a_setting_options', 'm2a_setting');
-}
-add_action('admin_init', 'm2a_register_settings');
-
-//echo option page for admin
-function m2a_settings() {
-    require 'option_page.php';
-}
-
-
 //create activation table
 function m2a_activate() {
     /*
@@ -77,6 +35,50 @@ function m2a_activate() {
        "googlecaptchasecretkey" => "",
     );
     add_option('m2a_setting', $defultoptions);
+}
+
+// for future use
+function m2a_uninstall() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'm2a_message';
+    $sql        = "DROP TABLE IF EXISTS $table_name";
+    $wpdb->query($sql);
+    delete_option('m2a_setting');
+}
+
+
+function m2a_admin_settings_page() {
+    add_menu_page('message to author', 'm2a', 'edit_posts', 'm2a-message', 'm2a_messagePage', 'dashicons-email', 80);
+    add_submenu_page('m2a-message', 'Message to author Settings', 'Settings', 'manage_options', 'm2a-settings', 'm2a_settings');
+}
+
+add_action('admin_menu', 'm2a_admin_settings_page');
+
+//render all html table
+function m2a_messagePage() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'm2a_message';
+    //$curruntuserrole = get_userdata(get_current_user_id())->roles[0];
+    $userid     = get_current_user_id();
+    if (current_user_can('moderate_comments')) {
+        $user_type = 1;
+        $messages  = $wpdb->get_results("SELECT * FROM $table_name");
+    } elseif (current_user_can('edit_posts')) {
+        $user_type = 2;
+        $messages  = $wpdb->get_results("SELECT * FROM $table_name WHERE author_id = $userid");
+    }
+    require 'admin_message.php';
+}
+
+//setting option page setting
+function m2a_register_settings() {
+    register_setting('m2a_setting_options', 'm2a_setting');
+}
+add_action('admin_init', 'm2a_register_settings');
+
+//echo option page for admin
+function m2a_settings() {
+    require 'option_page.php';
 }
 
 ?>
