@@ -6,5 +6,5 @@
         'Message Box'   at `message-to-author/functions/functions.php` at  function Name:   m2a_getMessageBoxHTML()
         'Popup Box'     at `message-to-author/functions/functions.php` at  function Name:   m2a_getPopupHTML()
 
-    If you wish to edit email body you can find it at: `message-to-author/functions/functions.php` at function Name:  m2a_sendemail()
+   If you wish to edit email body you can find it at: `message-to-author/functions/functions.php` at function Name:  m2a_sendemail()
    
