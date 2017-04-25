@@ -16,13 +16,13 @@
         <div class="m2a-option">
             <label><input type="checkbox" name="m2a_setting[nonuser]" value="1" <?php echo isset($form_group['nonuser']) ? 'checked' : ''; ?> />Allow only Registered User To Message</label>
         </div>
-        <div class="m2a-option">
+<!--        <div class="m2a-option">
             <label><input type="checkbox" name="m2a_setting[googlecaptcha]" class="googlecaptchaenable" value="1" <?php echo isset($form_group['googlecaptcha']) ? 'checked' : ''; ?> />Add Google Captcha?</label>	
         </div>
         <div class="m2a-option googlecaptcha">
             <label>public key:<input type="text" name="m2a_setting[googlecaptchapublickey]" value="<?php echo $form_group['googlecaptchapublickey']; ?>" /></label>
             <label>secret key:<input type="password" name="m2a_setting[googlecaptchasecretkey]" value="<?php echo $form_group['googlecaptchasecretkey']; ?>" /></label>
-        </div>
+        </div>-->
         <div class="m2a-option">
             Show as:  &nbsp; 
             <label><input type="radio" name="m2a_setting[showas]" value="popup" <?php echo (isset($form_group['showas']) && $form_group['showas'] == 'popup') ? 'checked' : ''; ?> >popup 
