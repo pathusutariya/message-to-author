@@ -31,12 +31,12 @@ function m2a_getPopupHTML() {
     return $messagebox;
 }
 
-function m2a_sendemail($to, $subject, $message, $usermail = 0 , $post_id){
-    $post_title = get_the_title();
-    $site_name = get_bloginfo('url');
-    if($type == 'author'){
+function m2a_sendemail($to, $subject, $message, $usermail = 0, $post_id) {
+    $post_title = get_the_title($post_id);
+    $site_name  = get_bloginfo('url');
+    if ($type == 'author') {
         $message = "You have a message from {$usermail}<br/>  Subject: {$subject}<br/>Message: {$message}  -<a href='{$site_name}'>{$site_name}</a>";
-    }else{
+    } else {
         $message = "You sent message successfully<br/>  Subject: {$subject}<br/>Message: {$message}<br/> -<a href='{$site_name}'>{$site_name}</a>";
     }
     $subject = "Message on {$post_title}";
@@ -47,18 +47,22 @@ function m2a_aftercontent() {
     $m2a_setting = get_option('m2a_setting');
     if (isset($m2a_setting['aftercontent']) && $m2a_setting['aftercontent'] == 1) {
         if ((!isset($m2a_setting['nonuser'])) || ($m2a_setting['nonuser'] == 1 && is_user_logged_in())) {
-            
+
             function m2a_messagebox($content) {
                 $m2a_setting = get_option('m2a_setting');
-                if ($m2a_setting['showas'] == 'messagebox')
-                    return $content . m2a_getMessageBoxHTML();
-                else
-                    return $content . m2a_getPopupHTML();
+                if (is_single()) {
+                    if ($m2a_setting['showas'] == 'messagebox')
+                        return $content . m2a_getMessageBoxHTML();
+                    else
+                        return $content . m2a_getPopupHTML();
+                }
             }
+
             add_filter('the_content', 'm2a_messagebox');
         }
     }
 }
+
 add_action('init', 'm2a_aftercontent');
 
 
@@ -75,24 +79,22 @@ function m2a_message_db_store() {
     $message  = $_REQUEST['message'];
 
     if (!is_user_logged_in()) {
-        $userid = $_REQUEST['user_email'];
+        $userid   = $_REQUEST['user_email'];
         $usermail = $userid;
     } else {
-        $userid = get_current_user_id();
+        $userid   = get_current_user_id();
         $usermail = get_userdata($userid)->user_email;
     }
     $tableName = $wpdb->prefix . 'm2a_message';
-    //$wpdb->insert($tableName, array('user_id' => $userid, 'author_id' => $authorid, 'post_id' => $postid, 'subject' => $subject, 'message' => $message));
-    $options = get_option('m2a_setting');
-    if(isset($options['emailtoauthor']) && $options['emailtoauthor'] == 1){
+    $wpdb->insert($tableName, array('user_id' => $userid, 'author_id' => $authorid, 'post_id' => $postid, 'subject' => $subject, 'message' => $message));
+    $options   = get_option('m2a_setting');
+    if (isset($options['emailtoauthor']) && $options['emailtoauthor'] == 1) {
         $to = get_userdata($authorid)->user_email;
         m2a_sendemail($to, $subject, $message, $usermail, $postid);
     }
-    if(isset($options['emailtoauthor']) && $options['emailtoauthor'] == 1){
-        m2a_sendemail($usermail, $subject, $message,0, $postid);
+    if (isset($options['emailtouser']) && $options['emailtouser'] == 1) {
+        m2a_sendemail($usermail, $subject, $message, 0, $postid);
     }
-    
-    
     wp_safe_redirect(wp_get_referer());
 }
 
@@ -103,8 +105,7 @@ add_action('admin_post_m2a_new_message', 'm2a_message_db_store');
 function messagebox($atts = array()) {
     $a    = get_option('m2a_setting');
     $atts = shortcode_atts(array(
-       'style'  => 'default',
-       'target' => 'user',
+       'style' => 'default',
           ), $atts, 'message2author');
     if ((!isset($a['nonuser'])) || ($a['nonuser'] == 1 && is_user_logged_in())) {
         if ($atts['style'] == 'messagebox') {
@@ -120,6 +121,6 @@ function messagebox($atts = array()) {
         }
     }
 }
-add_shortcode('message2author', 'messagebox');
 
+add_shortcode('message2author', 'messagebox');
 ?>
