@@ -7,7 +7,7 @@
     You can change behaviour of message box by passing parameter to shortcode. ex- `[message2author style="messagebox"]` for show message box or `[message2author style="popup"]` for display it in pop up.
     it will not depend on your settings from admin panel.
 
-###Settings
+### Settings
     After content:   it will show after all post's content at  the end of content.
     Allow only Registered User To Message:   it will allow only registered user to submit a message
     Show as:    you have 2 layout to choose from,
