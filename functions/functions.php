@@ -2,14 +2,18 @@
 <?php
 
 function m2a_getMessageBoxHTML() {
-    $messagebox = '<form class="form" method="post" action="' . esc_url(admin_url('admin-post.php')) . '"><input style="margin-bottom:15px;" type="text" name="subject" placeholder="Subject">';
+    $messagebox = '<script src="https://www.google.com/recaptcha/api.js"></script><form class="form" method="post" action="' . esc_url(admin_url('admin-post.php')) . '"><input style="margin-bottom:15px;" type="text" name="subject" placeholder="Subject">';
     if (!is_user_logged_in()) {
         $messagebox .= '<input style="margin-bottom:15px;" type="email" name="user_email" placeholder="Email">';
     }
     $messagebox .= '<textarea style="margin-bottom:15px;" name="message" placeholder="Message"></textarea>
 					<input type="hidden" name="action" value="m2a_new_message" />
-					<input type="hidden" name="post_id" value="' . get_the_ID() . '" />
-					<input type="submit" class="button btn" name="submit_message" value="submit" />
+					<input type="hidden" name="post_id" value="' . get_the_ID() . '" />';
+    $options    = get_option('m2a_setting');
+    if ($options['googlecaptcha'] && $options['googlecaptchapublickey']) {
+        $messagebox .= '<div class="g-recaptcha" data-sitekey="' . $options['googlecaptchapublickey'] . '"></div>';
+    }
+    $messagebox .= '<input type="submit" class="button btn" name="submit_message" value="submit" />
 				</form>';
     return $messagebox;
 }
@@ -24,8 +28,12 @@ function m2a_getPopupHTML() {
     }
     $messagebox .= '<textarea style = "margin-bottom:15px;" name = "message" placeholder = "Message" rows = "5"></textarea>
     <input type = "hidden" name = "action" value = "m2a_new_message" />
-    <input type = "hidden" name = "post_id" value = "' . get_the_ID() . '" />
-    <input type = "submit" class = "button btn" name = "submit_message" value = "submit" />
+    <input type = "hidden" name = "post_id" value = "' . get_the_ID() . '" />';
+    $options    = get_option('m2a_setting');
+    if ($options['googlecaptcha']) {
+        $messagebox .= '<div class="g-recaptcha" data-sitekey="' . $options['googlecaptchapublickey'] . '"></div>';
+    }
+    $messagebox .= '<input type = "submit" class = "button btn" name = "submit_message" value = "submit" />
     </form></div>
     <a href = "#TB_inline?width=auto&height=auto&inlineId=my-content-id" class = "thickbox btn button">message me</a>';
     return $messagebox;
@@ -77,50 +85,58 @@ function m2a_message_db_store() {
     $authorid = get_post_field('post_author', $postid);
     $subject  = $_REQUEST['subject'];
     $message  = $_REQUEST['message'];
+    $options  = get_option('m2a_setting');
+    if ($options['googlecaptcha']) {
+        $captcha = $_REQUEST['g-recaptcha-response'];
+        $response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$options['googlecaptchasecretkey']."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+        if ($response['success'] == false) {
+            wp_safe_redirect(wp_get_referer());
+        }
+    }
+        
+        if (!is_user_logged_in()) {
+            $userid   = $_REQUEST['user_email'];
+            $usermail = $userid;
+        } else {
+            $userid   = get_current_user_id();
+            $usermail = get_userdata($userid)->user_email;
+        }
+        $tableName = $wpdb->prefix . 'm2a_message';
+        $wpdb->insert($tableName, array('user_id' => $userid, 'author_id' => $authorid, 'post_id' => $postid, 'subject' => $subject, 'message' => $message));
+        $options   = get_option('m2a_setting');
+        if (isset($options['emailtoauthor']) && $options['emailtoauthor'] == 1) {
+            $to = get_userdata($authorid)->user_email;
+            m2a_sendemail($to, $subject, $message, $usermail, $postid);
+        }
+        if (isset($options['emailtouser']) && $options['emailtouser'] == 1) {
+            m2a_sendemail($usermail, $subject, $message, 0, $postid);
+        }
+        wp_safe_redirect(wp_get_referer());
+    }
 
-    if (!is_user_logged_in()) {
-        $userid   = $_REQUEST['user_email'];
-        $usermail = $userid;
-    } else {
-        $userid   = get_current_user_id();
-        $usermail = get_userdata($userid)->user_email;
-    }
-    $tableName = $wpdb->prefix . 'm2a_message';
-    $wpdb->insert($tableName, array('user_id' => $userid, 'author_id' => $authorid, 'post_id' => $postid, 'subject' => $subject, 'message' => $message));
-    $options   = get_option('m2a_setting');
-    if (isset($options['emailtoauthor']) && $options['emailtoauthor'] == 1) {
-        $to = get_userdata($authorid)->user_email;
-        m2a_sendemail($to, $subject, $message, $usermail, $postid);
-    }
-    if (isset($options['emailtouser']) && $options['emailtouser'] == 1) {
-        m2a_sendemail($usermail, $subject, $message, 0, $postid);
-    }
-    wp_safe_redirect(wp_get_referer());
-}
-
-add_action('admin_post_nopriv_m2a_new_message', 'm2a_message_db_store');
-add_action('admin_post_m2a_new_message', 'm2a_message_db_store');
+    add_action('admin_post_nopriv_m2a_new_message', 'm2a_message_db_store');
+    add_action('admin_post_m2a_new_message', 'm2a_message_db_store');
 
 // Create shortcode
-function messagebox($atts = array()) {
-    $a    = get_option('m2a_setting');
-    $atts = shortcode_atts(array(
-       'style' => 'default',
-          ), $atts, 'message2author');
-    if ((!isset($a['nonuser'])) || ($a['nonuser'] == 1 && is_user_logged_in())) {
-        if ($atts['style'] == 'messagebox') {
-            return m2a_getMessageBoxHTML();
-        } elseif ($atts['style'] == 'popup') {
-            return m2a_getPopupHTML();
-        } elseif ($atts['style'] == 'default') {
-            if ($a['showas'] == 'messagebox') {
+    function messagebox($atts = array()) {
+        $a    = get_option('m2a_setting');
+        $atts = shortcode_atts(array(
+           'style' => 'default',
+              ), $atts, 'message2author');
+        if ((!isset($a['nonuser'])) || ($a['nonuser'] == 1 && is_user_logged_in())) {
+            if ($atts['style'] == 'messagebox') {
                 return m2a_getMessageBoxHTML();
-            } elseif ($a['showas'] == 'popup') {
+            } elseif ($atts['style'] == 'popup') {
                 return m2a_getPopupHTML();
+            } elseif ($atts['style'] == 'default') {
+                if ($a['showas'] == 'messagebox') {
+                    return m2a_getMessageBoxHTML();
+                } elseif ($a['showas'] == 'popup') {
+                    return m2a_getPopupHTML();
+                }
             }
         }
     }
-}
 
-add_shortcode('message2author', 'messagebox');
+    add_shortcode('message2author', 'messagebox');
 ?>

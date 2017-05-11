@@ -29,11 +29,12 @@ function m2a_activate() {
 
     //adding defult options for managing plugin
     $defultoptions = array(
-     "nonuser"                => "1",
-     "showas"                 => "messagebox",
-     "googlecaptchapublickey" => "",
-     "googlecaptchasecretkey" => "",
-     );
+       "nonuser"                => "1",
+       "showas"                 => "messagebox",
+       "googlecaptchaenable"    => "0",
+       "googlecaptchapublickey" => "",
+       "googlecaptchasecretkey" => "",
+    );
     add_option('m2a_setting', $defultoptions);
 }
 
@@ -47,12 +48,12 @@ function m2a_uninstall() {
     delete_option('m2a_setting');
 }
 
-
 function m2a_admin_settings_page() {
     add_menu_page('message to author', 'M2A', 'edit_posts', 'm2a-message', 'm2a_messagePage', 'dashicons-email', 80);
     add_submenu_page('m2a-message', 'Author Messages', 'Messages', 'edit_posts', 'm2a-message', 'm2a_messagePage');
     add_submenu_page('m2a-message', 'Message to author Settings', 'Settings', 'manage_options', 'm2a-settings', 'm2a_settings');
 }
+
 add_action('admin_menu', 'm2a_admin_settings_page');
 
 //render all html table
@@ -75,6 +76,7 @@ function m2a_messagePage() {
 function m2a_register_settings() {
     register_setting('m2a_setting_options', 'm2a_setting');
 }
+
 add_action('admin_init', 'm2a_register_settings');
 
 //echo option page for admin
