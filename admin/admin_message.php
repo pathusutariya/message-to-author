@@ -1,4 +1,4 @@
-<h1>Show Message To Author</h1>
+<h1>Show Author's Message</h1>
 <form method="post" action="options.php">
     <div class="m2a-messageshow">
         <table border="1" cellpadding="5">

@@ -13,15 +13,15 @@ function m2a_activate() {
     $table_name      = $wpdb->prefix . 'm2a_message';
     $charset_collate = $wpdb->get_charset_collate();
     $sql             = "CREATE TABLE $table_name (
-		id int(9) NOT NULL AUTO_INCREMENT,
-                time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		user_id varchar(255) NOT NULL,
-		author_id int(9) NOT NULL,
-		post_id int(9) NOT NULL,
-		subject varchar(255) NOT NULL,
-		message text NULL,
-                PRIMARY KEY (`id`)
-	)" . $charset_collate;
+    id int(9) NOT NULL AUTO_INCREMENT,
+    time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id varchar(255) NOT NULL,
+    author_id int(9) NOT NULL,
+    post_id int(9) NOT NULL,
+    subject varchar(255) NOT NULL,
+    message text NULL,
+    PRIMARY KEY (`id`)
+    )" . $charset_collate;
 
     require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
     dbDelta($sql);
@@ -29,15 +29,16 @@ function m2a_activate() {
 
     //adding defult options for managing plugin
     $defultoptions = array(
-       "nonuser"                => "1",
-       "showas"                 => "messagebox",
-       "googlecaptchapublickey" => "",
-       "googlecaptchasecretkey" => "",
-    );
+     "nonuser"                => "1",
+     "showas"                 => "messagebox",
+     "googlecaptchapublickey" => "",
+     "googlecaptchasecretkey" => "",
+     );
     add_option('m2a_setting', $defultoptions);
 }
 
-// for future use
+// Deleting plugin and it's data from database
+//really need to improve it, or asking user confirmation before doing it
 function m2a_uninstall() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'm2a_message';
@@ -48,10 +49,10 @@ function m2a_uninstall() {
 
 
 function m2a_admin_settings_page() {
-    add_menu_page('message to author', 'm2a', 'edit_posts', 'm2a-message', 'm2a_messagePage', 'dashicons-email', 80);
+    add_menu_page('message to author', 'M2A', 'edit_posts', 'm2a-message', 'm2a_messagePage', 'dashicons-email', 80);
+    add_submenu_page('m2a-message', 'Author Messages', 'Messages', 'edit_posts', 'm2a-message', 'm2a_messagePage');
     add_submenu_page('m2a-message', 'Message to author Settings', 'Settings', 'manage_options', 'm2a-settings', 'm2a_settings');
 }
-
 add_action('admin_menu', 'm2a_admin_settings_page');
 
 //render all html table

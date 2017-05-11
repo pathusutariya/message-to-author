@@ -1,6 +1,7 @@
 <style>
     .m2a-option{padding: 10px;}
     .googlecaptcha{display: none;}
+    .label{padding: 10px; background-color: #F9F9F9; margin: 2px;}
 </style>
 <div class="dashboard">
     <h1>Message to Author</h1>
@@ -12,6 +13,7 @@
         ?>
         <div class="m2a-option">  
             <label><input type="checkbox" name="m2a_setting[aftercontent]" value="1" <?php echo isset($form_group['aftercontent']) ? 'checked' : ''; ?> />After Content?</label>
+            <p class="note"><strong>Note:- </strong>   You can use message box by putting shortcode <code class="label"> [message2author]</code> to show Message box.</p>
         </div>
         <div class="m2a-option">
             <label><input type="checkbox" name="m2a_setting[nonuser]" value="1" <?php echo isset($form_group['nonuser']) ? 'checked' : ''; ?> />Allow only Registered User To Message</label>
@@ -34,9 +36,14 @@
         <div class="m2a-option">
             <label><input type="checkbox" name="m2a_setting[emailtouser]" value="1" <?php echo isset($form_group['emailtouser']) ? 'checked' : ''; ?> />Send Confirmation E-mail To Customer?</label>	
         </div>
-
         <?php submit_button(); ?>
     </form>
+    <div class="information">
+        <h3>Use Information:</h3>
+        <p>You can put message box anywhere in the website you can use shortcode <code> [message2author]</code> for put anywhere or use PHP <code>&lt;?php echo do_shortcode("[message2author]"); ?></code></p>
+        <p>You can change behaviour of message box by passing parameter to shortcode.    ex- <code> [message2author style="messagebox"]</code>  for show message box or <code > [message2author style="popup"]</code> for display it in pop up.<br/>
+            it will not depend on your settings from admin panel.  </p>
+    </div>
 </div>
 <script type="text/javascript">
     (function($) {

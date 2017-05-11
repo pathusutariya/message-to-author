@@ -27,7 +27,7 @@ function m2a_getPopupHTML() {
     <input type = "hidden" name = "post_id" value = "' . get_the_ID() . '" />
     <input type = "submit" class = "button btn" name = "submit_message" value = "submit" />
     </form></div>
-    <a href = "#TB_inline?width=600&height=350&inlineId=my-content-id" class = "thickbox btn button">message me</a>';
+    <a href = "#TB_inline?width=auto&height=auto&inlineId=my-content-id" class = "thickbox btn button">message me</a>';
     return $messagebox;
 }
 
