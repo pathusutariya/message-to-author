@@ -1,0 +1,16 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+.m2a-option { padding: 10px; }
+.m2a-option.googlecaptcha { display: none; }
+.capitlize { text-transform: uppercase; }
+.m2a-messageshow .widefat { box-shadow: 0 0 5px 1px #DDD; }
+.m2a-messageshow .widefat { border-collapse: collapse; }
+.m2a-messageshow .widefat th, td { border: 1px solid #CCC; }
+.m2a-messageshow .widefat tbody tr:hover { background-color: #EEE; }
+.m2a-messageshow .widefat th { font-weight: bold; }
+.m2a-messageshow .widefat thead { background-color: #DDD; }
+.m2a-messageshow .widefat th:first-child { width: 25px; }
+.m2a-messageshow .widefat th:nth-child(3) { width: 150px; }
+.m2a-messageshow .widefat th:nth-child(4) { width: 150px; }
