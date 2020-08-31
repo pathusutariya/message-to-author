@@ -1,5 +1,7 @@
 # Message To Author
-`Message to Author` is a WordPress plugin that allows users to message author of the post/CPT/page directly.
+**Message to Author** is a WordPress plugin that allows users to message author of the post/CPT/page directly.
+
+This plugin is published at [WordPress Plugin](https://wordpress.org/plugins/message-to-author/)
 
 This can be helpful to set up catalogs to ask for inquiry, when handling multiple blog/magazine with multiple author. Post messages to author regarding any obligations of content.
 
@@ -34,3 +36,9 @@ Multiple options available for UI of message-box
 
 ### Modify UI/Styling
 To change styling and HTML,  the messages box will be available at `/public/partials/messagebox.php` and Popup will be editable from `/public/partials/popup.php` in plugin's directory.
+
+
+
+### Contributions
+
+You are welcome to [pull request](https://github.com/pathusutariya/message-to-author/pulls) for bug-fixing and feature-enhancement.  If you find any problem Please [Rise an Issue](https://github.com/pathusutariya/message-to-author/issues/new/choose).
