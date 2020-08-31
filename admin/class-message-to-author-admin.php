@@ -113,6 +113,7 @@ class Message_To_Author_Admin {
 	}
 
 	public function settings_page() {
+		add_settings_section( $this->setting_section, 'Message to Author', false, $this->page['slug'] );
 		require plugin_dir_path( __FILE__ ) . 'partials/m2a-admin-settings-display.php';
 	}
 

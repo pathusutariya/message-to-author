@@ -16,7 +16,7 @@
  * Plugin Name:       Message To Auhtor
  * Plugin URI:        https://wordpress.org/plugins/message-to-author/
  * Description:       Just Message/feedback/query to Auther, You can Also ask for product to seller with woocommerce | enable from settings or use shortcode [message2author] for adding messagebox
- * Version:           3.0.1
+ * Version:           3.1.0
  * Author:            Parth Sutariya
  * Author URI:        https://codelab7.com
  * License:           GPL-2.0+

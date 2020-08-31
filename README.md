@@ -1,23 +1,36 @@
 # Message To Author
-'Message to Author' is a WordPress plugin that  allows users to message author of the post directly 
+`Message to Author` is a WordPress plugin that allows users to message author of the post/CPT/page directly.
+
+This can be helpful to set up catalogs to ask for inquiry, when handling multiple blog/magazine with multiple author. Post messages to author regarding any obligations of content.
+
+Email to author about messages.
+
+- All messages records in admin panel
+
+- Author will see all messages/records belongs to him/her directly from users.
+
+- Option to send message only for registered users.
+
+- Can be used as an internal messaging system 
 
 ## Uses
-   download this plugin and put it into your WordPress files into   `/wp-content/plugins` and activate from your WordPress admin panel,   you can enable for each post's bottom
-   You can put message box anywhere in the website you can use shortcode `[message2author]` for put anywhere or use PHP `<?php echo do_shortcode("[message2author]"); ?>`
-   You can change the behavior of the message box by passing parameters to a shortcode. ex- `[message2author style="messagebox"]` for show message box or `[message2author style="popup"]` for display it in pop up.
-   it will not depend on your settings from admin panel.
+Download this plugin and put it into your WordPress files into `/wp-content/plugins` and activate from your WordPress admin panel.
 
-### Settings
-   After content:   it will show after all the post's content at the end of content.
-   Allow only Registered User To Message:   it will allow only registered user to submit a message
-   Show as:    you have 2 layouts to choose from,
-   Send Email:   inform Author about received message and user for confirmation
+You can enable for all posts, or you can put message box anywhere on the website you can use Shortcode `[message2author]` for put anywhere or use PHP `<?php echo do_shortcode("[message2author]"); ?>` to embed in your code or template.
+
+ 
+
+Multiple options available for UI of message-box 
+
+1. `[message2author style="messagebox"]` for show message box
+
+2. `[message2author style="popup"]` to display a button which pop a dialog box to send message.
+
+3. The default behavior can be selected from admin's options.
+
+
 
 ## Technical Information
 
-### Modify Look
-   you can edit look for 
-        'Message Box'   at `message-to-author/functions/functions.php` at  function Name:   m2a_getMessageBoxHTML()
-        'Popup Box'     at `message-to-author/functions/functions.php` at  function Name:   m2a_getPopupHTML()
-
-   If you wish to edit email body, you can find it at: `message-to-author/functions/functions.php` at function Name:  `m2a_sendemail()`
+### Modify UI/Styling
+To change styling and HTML,  the messages box will be available at `/public/partials/messagebox.php` and Popup will be editable from `/public/partials/popup.php` in plugin's directory.
