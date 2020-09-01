@@ -109,11 +109,12 @@ class Message_To_Author_Admin {
 	public function all_messages() {
 		wp_enqueue_style( $this->plugin_name . '-admin' );
 		$messages = $this->messages->getMessages();
-		require plugin_dir_path( __FILE__ ) . 'partials/admin_message.php';
+        require plugin_dir_path( __FILE__ ) . 'partials/admin_message.php';
+
 	}
 
 	public function settings_page() {
-		add_settings_section( $this->setting_section, 'Message to Author', false, $this->page['slug'] );
+		add_settings_section( 'Message to Author', 'Message to Author', false, 'm2a-settings' );
 		require plugin_dir_path( __FILE__ ) . 'partials/m2a-admin-settings-display.php';
 	}
 

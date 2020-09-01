@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'MESSAGE_TO_AUTHOR_VERSION', '3.0.1' );
+define( 'MESSAGE_TO_AUTHOR_VERSION', '3.1.0' );
 
 global $wpdb;
 /**
@@ -82,9 +82,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-message-to-author.php';
  * @since    1.0.0
  */
 function run_message_to_author() {
-
 	$plugin = new Message_To_Author();
 	$plugin->run();
-
 }
 run_message_to_author();

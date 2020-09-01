@@ -1,11 +1,11 @@
 <div class="dashboard">
     <h1>Message to Author</h1>
     <form method="post" action="options.php">
-		<?php
-		settings_fields( 'm2a_setting_options' );
-		do_settings_sections( 'm2a_setting_options' );
-		$form_group = get_option( 'm2a_settings' );
-		?>
+        <?php
+        settings_fields('m2a_setting_options');
+        do_settings_sections('m2a_setting_options');
+        $form_group = get_option('m2a_settings');
+        ?>
         <table class="form-table">
             <tbody>
             <tr>
@@ -14,7 +14,7 @@
                     <fieldset>
                         <div class="m2a-option">
                             <label>
-                                <input type="checkbox" name="m2a_settings[aftercontent]" value="1" <?php echo isset( $form_group['aftercontent'] ) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="m2a_settings[aftercontent]" value="1" <?= $form_group['aftercontent'] ? 'checked' : ''; ?> />
                                 After All Post's Content?
                             </label>
                             <p class="note">
@@ -30,7 +30,7 @@
                     <fieldset>
                         <div class="m2a-option">
                             <label>
-                                <input type="checkbox" name="m2a_settings[nonuser]" value="1" <?php echo isset( $form_group['nonuser'] ) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="m2a_settings[nonuser]" value="0" <?= $form_group['nonuser'] ?'' : 'checked'; ?> />
                                 Allow only Registered User To Send a Message
                             </label>
                         </div>
@@ -43,11 +43,11 @@
                     <fieldset>
                         <div class="m2a-option">
                             <label>
-                                <input type="checkbox" name="m2a_settings[googlecaptcha]" class="googlecaptchaenable" value="1" <?php echo isset( $form_group['googlecaptcha'] ) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="m2a_settings[googlecaptcha]" class="googlecaptchaenable" value="1" <?= $form_group['googlecaptcha'] ? 'checked' : ''; ?> />
                                 Enable Google Captcha-v2?
                             </label>
                         </div>
-                        <div class="m2a-option googlecaptcha" <?php if ( ! $form_group['googlecaptcha'] ): ?> style="display: none;"  <?php endif; ?>>
+                        <div class="m2a-option googlecaptcha" <?php if (!$form_group['googlecaptcha']): ?> style="display: none;"  <?php endif; ?>>
                             <label>
                                 <strong>public key: </strong>
                                 <input class="regular-text" type="text" name="m2a_settings[googlecaptchapublickey]" value="<?php echo $form_group['googlecaptchapublickey']; ?>"/></label><br>
@@ -65,11 +65,11 @@
                         <div class="m2a-option">
                             Show as
                             <label>
-                                <input type="radio" name="m2a_settings[showas]" value="popup" <?php echo ( isset( $form_group['showas'] ) && $form_group['showas'] == 'popup' ) ? 'checked' : ''; ?> >
+                                <input type="radio" name="m2a_settings[showas]" value="popup" <?php echo ($form_group['showas'] == 'popup') ? 'checked' : ''; ?> >
                                 Pop-up
                             </label>
                             <label>
-                                <input type="radio" name="m2a_settings[showas]" value="messagebox" <?php echo ( isset( $form_group['showas'] ) && $form_group['showas'] == 'messagebox' ) ? 'checked' : ''; ?> >
+                                <input type="radio" name="m2a_settings[showas]" value="messagebox" <?php echo ($form_group['showas'] == 'messagebox') ? 'checked' : ''; ?> >
                                 Message Box
                             </label>
                             <p class="note">
@@ -86,11 +86,11 @@
                     <fieldset>
                         <div class="m2a-option">
                             <label>
-                                <input type="checkbox" name="m2a_settings[emailtoauthor]" value="1" <?php echo isset( $form_group['emailtoauthor'] ) ? 'checked' : ''; ?> />
+                                <input type="checkbox" name="m2a_settings[emailtoauthor]" value="1" <?php echo isset($form_group['emailtoauthor']) ? 'checked' : ''; ?> />
                                 Send E-mail To Author when a new message arrives.</label>
                         </div>
                         <div class="m2a-option">
-                            <label><input type="checkbox" name="m2a_settings[emailtouser]" value="1" <?php echo isset( $form_group['emailtouser'] ) ? 'checked' : ''; ?> />
+                            <label><input type="checkbox" name="m2a_settings[emailtouser]" value="1" <?php echo isset($form_group['emailtouser']) ? 'checked' : ''; ?> />
                                 Send Confirmation E-mail To Sender?
                             </label>
                         </div>
@@ -100,7 +100,7 @@
             </tbody>
         </table>
         <p>
-			<?php submit_button(); ?>
+            <?php submit_button(); ?>
         </p>
     </form>
 </div>
