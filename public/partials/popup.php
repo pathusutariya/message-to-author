@@ -1,22 +1,27 @@
+<?php
+$class = '';
+if(is_user_logged_in()):
+	$class= 'login';
+endif;
+?>
 <div id="my-content-id" style="display: none;">
-    <div class="m2a-message m2a-popup">
-        <form class="form" method="post" action="<?= esc_url(admin_url('admin-post.php')) ?>">
-            <input type="text" name="subject" placeholder="Subject" autocomplete="off">
-
-            <?php if (!is_user_logged_in()): ?>
-                <input type="email" name="user_email" placeholder="Email">
-            <?php endif; ?>
-
-            <textarea name="message" placeholder="Message" rows="4"></textarea>
-            <input type="hidden" name="action" value="m2a_new_message"/>
-            <input type="hidden" name="post_id" value="<?= get_the_ID() ?>"/>
-
-            <?php if (isset($this->options['googlecaptcha']) && $this->options['googlecaptchapublickey']): ?>
-                <div class="g-recaptcha" data-sitekey="<?= $this->options['googlecaptchapublickey']; ?>"></div>
-            <?php endif; ?>
-
-            <input type="submit" class="button btn" name="submit_message" value="Send Message"/>
-        </form>
+    <div class="m2a-message m2a-popup <?= $class ?>">
+		<?php include M2A_DIR.'templates/form.php'; ?>
     </div>
 </div>
-<a href="#TB_inline?width=auto&height=auto&inlineId=my-content-id" class="thickbox btn button">message me</a>
+<?php
+
+$login = true;
+if(is_user_logged_in()):
+	$login = false;
+endif;
+$style = 'width=auto&height=auto';
+if($options['style']=='style1')
+	$style = 'width=700&height=450';
+elseif($options['style']=='style2')
+	$style = 'width=600&height=595';
+else
+	$style;
+?>
+
+<a href="#TB_inline?<?= $style; ?>&inlineId=my-content-id" class="thickbox btn button"><?= $options['labels']['button_label'] ?></a>

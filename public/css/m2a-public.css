@@ -1,0 +1,8 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+.m2a-message .form .m2a-subject {margin-bottom: 10px; margin-top: 10px; width: 100%;}
+.m2a-message .form .m2a-email {margin-bottom: 10px; width: 100%;}
+.m2a-message .form .m2a-submit {margin-top: 10px; margin-bottom: 10px}
+.m2a-message .m2a-title h2::before{display: none;}

@@ -1,0 +1,7 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.google-captcha-config-box{display: none;}
+.google-captcha-config-box.active{display: block;}
