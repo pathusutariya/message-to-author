@@ -2,7 +2,28 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
-.m2a-message .form .m2a-subject {margin-bottom: 10px; margin-top: 10px; width: 100%;}
-.m2a-message .form .m2a-email {margin-bottom: 10px; width: 100%;}
-.m2a-message .form .m2a-submit {margin-top: 10px; margin-bottom: 10px}
+.m2a-message .m2a-warning, .m2a-message .m2a-success { padding: 5px 20px; margin: 10px; font-size: 18px;}
+.m2a-message .m2a-warning {background: #ff7171; color: #fff;}
+.m2a-message .m2a-success {background: #cff6cf; color: #111;}
+
+.m2a-message{margin-top: 15px;margin-bottom: 15px;}
+.m2a-message.m2a-popup{margin-left: 15px;}
+
 .m2a-message .m2a-title h2::before{display: none;}
+.m2a-message .m2a-title h2{margin-bottom: 5px; margin-top:15px; line-height: 120%;}
+
+
+.m2a-message .form input{min-height: 50px; height: 50px; max-height: 50px; padding: 15px; font-family: inherit;}
+.m2a-message .form .m2a-subject {margin-bottom: 15px; margin-top: 15px; width: 100%;}
+.m2a-message .form .m2a-email {margin-bottom: 15px; width: 100%;}
+.m2a-message .form .m2a-submit {margin-top: 10px; margin-bottom: 10px;}
+
+.m2a-message .form textarea{min-height: 155px; height: 155px; max-height: 155px; padding: 15px; font-family: inherit;}
+.m2a-message .m2a-text { width: 100%; }
+
+/*btn*/
+.thickbox.btn.button:hover { color: inherit;}
+
+@media(max-width: 1024px){
+    .m2a-message.m2a-popup  .m2a-title h2{ font-size: 28px;}
+}

@@ -69,10 +69,28 @@ class M2A_Abstruct{
 		return preg_replace('/[^A-Za-z0-9_\-]/', '', $variablename);
 	}
 
+	private function get_default_option(){
+		return [
+			'after_post' => '',
+			'captcha'=>'',
+			'allow_visitor'=>'visitor',
+			'captcha_config' => ['key'=>'','secret'=>''],
+			'layout'=>'messagebox',
+			'labels'=>[
+				'title'=>'MessageToAuthor',
+				'button_label'=>'Submit',
+				'success_message'=>'Your message has been send successfully. Author will contact you ASAP.',
+				'popup_button' => 'Open popup'
+			]
+		];
+	}
+
 	private function _set_option(){
 		if( !$this->options){
 			foreach($this->available_options as $key => $value)
 				$this->options[$key] = get_option($value);
+			$this->options = array_filter( $this->options,'array_trim');
+			$this->options = wp_parse_args($this->options,$this->get_default_option());
 		}
 	}
 
@@ -100,4 +118,15 @@ class M2A_Abstruct{
 		return $default_options[$option_name];
 	}
 
+}
+
+/**
+ * ToDo:
+ * Function proper jagyae mukvu
+ *
+ */
+function array_trim($input) {
+	return is_array($input) ? array_filter($input,
+		function (& $value) { return $value = array_trim($value); }
+	) : $input;
 }

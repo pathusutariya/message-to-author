@@ -38,6 +38,7 @@ class M2A_Shortcode extends M2A_Abstruct{
 			'button_label'    => $args['button_label'],
 			'success_message' => $label['success_message']
 		]);
+
 	}
 
 	private function popup_render(){

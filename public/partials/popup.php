@@ -1,7 +1,7 @@
 <?php
 $class = '';
 if(is_user_logged_in()):
-	$class= 'login';
+	$class = 'login';
 endif;
 ?>
 <div id="my-content-id" style="display: none;">
@@ -10,18 +10,30 @@ endif;
     </div>
 </div>
 <?php
-
-$login = true;
-if(is_user_logged_in()):
-	$login = false;
+$style = 'width=auto&height=460';
+if($options['style']=='style1'):
+	if(is_user_logged_in()):
+		$style = 'width=670&height=470';
+	else:
+		$style = 'width=670&height=470';
+	endif;
+elseif($options['style']=='style2'):
+	if(is_user_logged_in()):
+		$style = 'width=auto&height=480';
+	else:
+		$style = 'width=600&height=550';
+	endif;
+else:
+	if(is_user_logged_in()):
+		$style = 'width=auto&height=390';
+	else:
+		$style;
+	endif;
 endif;
-$style = 'width=auto&height=auto';
-if($options['style']=='style1')
-	$style = 'width=700&height=450';
-elseif($options['style']=='style2')
-	$style = 'width=600&height=595';
-else
-	$style;
+
+if(wp_is_mobile()){
+	$style = 'width=320&height=550';
+}
 ?>
 
 <a href="#TB_inline?<?= $style; ?>&inlineId=my-content-id" class="thickbox btn button"><?= $options['labels']['button_label'] ?></a>

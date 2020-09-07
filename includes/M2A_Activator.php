@@ -13,9 +13,9 @@ class M2A_Activator{
 		add_option('m2a_layout', 'messagebox');
 		add_option('m2a_style', 'style1');
 		add_option('m2a_labels', [
-			'title'           => '',
-			'button_label'    => '',
-			'success_message' => ''
+			'title'           => 'MessageToAuthor',
+			'button_label'    => 'Submit',
+			'success_message' => 'Your message has been send successfully. Author will contact you ASAP.'
 		]);
 		add_option('m2a_mail_setting', [
 			'author-notification' => true,

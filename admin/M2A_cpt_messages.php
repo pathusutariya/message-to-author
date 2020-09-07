@@ -5,7 +5,7 @@ class M2A_cpt_messages extends M2A_Abstruct{
 
 	private $post_type = 'm2a_messages';
 
-	function register_post_type(){
+	public function register_post_type(){
 		$labels       = array(
 			'name'               => _x('M2A/Messages', 'post type general name'),
 			'singular_name'      => _x('M2A/Message', 'post type singular name'),
@@ -29,7 +29,7 @@ class M2A_cpt_messages extends M2A_Abstruct{
 			'description'         => 'All M2A/Messages Administrations.',
 			'public'              => true,
 			'menu_position'       => 81,
-			'supports'            => array('title', 'editor'),
+			'supports'            => array('title'),
 			'has_archive'         => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
@@ -43,9 +43,20 @@ class M2A_cpt_messages extends M2A_Abstruct{
 			'menu_icon'           => 'dashicons-email',
 		);
 		register_post_type($this->post_type, $args);
+		/*register_post_status( 'escalated', array(
+			'label'                     => _x( 'Escalate ', 'Message Status', 'm2a' ),
+			'public'                    => true,
+			'label_count'               => _n_noop( 'Aggregated s <span class="count">(%s)</span>', 'Aggregated s <span class="count">(%s)</span>', 'plugin-domain' ),
+			'post_type'                 => array( $this->post_type ), // Define one or more post types the status can be applied to.
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'show_in_metabox_dropdown'  => true,
+			'show_in_inline_dropdown'   => true,
+			'dashicon'                  => 'dashicons-businessman',
+		) );*/
 	}
 
-	function create($title, $content){
+	public function create($title, $content,$author){
 		/**
 		 * todo: Add new post details
 		 * https://developer.wordpress.org/reference/functions/wp_insert_post/
@@ -54,9 +65,17 @@ class M2A_cpt_messages extends M2A_Abstruct{
 			'post_title'   => $title,
 			'post_content' => $content,
 			'post_status'  => 'publish',
-			'post_type'    => $this->post_type
+			'post_type'    => $this->post_type,
+			'post_author' => $author
 		]);
 	}
 
+	public function add_meta_box_support(){
+		add_meta_box('m2a-message-base', 'Messages', [$this,'render_content'],$this->post_type,'normal','high');
+	}
+
+	public function render_content($post){
+		echo $post->post_content;
+	}
 
 }

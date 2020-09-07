@@ -50,6 +50,7 @@ class M2A_Settings extends M2A_Abstruct{
 		add_settings_field('m2a_style', 'Default Style', [$this, 'render_style_selector'], $this->page_id, 'layout_settings');
 		register_setting($this->option_group, 'm2a_labels');
 		add_settings_field('m2a_labels', 'Default Labels', [$this, 'render_labels'], $this->page_id, 'layout_settings');
+
 	}
 
 	public function render_mail_setting(){
@@ -58,21 +59,27 @@ class M2A_Settings extends M2A_Abstruct{
         <label><input type="checkbox" name="m2a_mail_setting" value="1" <?= ($value==1)? 'checked' : '' ?>>Show Admin?</label>
         <p class="description">It will trail all post with message box</p>
 		<?php
+
 	}
 
 	public function render_labels(){
 		$value = $this->options('labels');
 		?>
         <label><strong>Title: </strong><br>
-            <input name="m2a_labels[title]" type="text" id="m2a_label_title" value="<?= $value['title'] ?>" class="regular-text" placeholder="Enter Title">
+            <input name="m2a_labels[title]" type="text" id="m2a_label_title" value="<?= $value['title'] ?>" class="regular-text" placeholder="Enter Title" maxlength="15">
+            <p style="font-size: 12px;"><em><strong>Note:</strong> Maximum 15 character allow </em></p>
         </label>
-        <br><br>
+        <br>
         <label><strong>Button Label: </strong><br>
             <input name="m2a_labels[button_label]" type="text" id="m2a_label_btn" value="<?= $value['button_label'] ?>" class="regular-text" placeholder="Enter Button label">
         </label>
         <br><br>
         <label><strong>Success Message: </strong><br>
             <textarea class="regular-text" name="m2a_labels[success_message]" id="m2a_success_message" rows="5" cols="30" placeholder="Enter Success Message"><?= $value['success_message'] ?></textarea>
+        </label>
+        <br><br>
+        <label><strong>Popup button Label: </strong><br>
+            <input name="m2a_labels[popup_button]" type="text" id="m2a_popup_button" value="<?= $value['popup_button'] ?>" class="regular-text" placeholder="Enter Button label">
         </label>
 		<?php
 	}
@@ -91,6 +98,7 @@ class M2A_Settings extends M2A_Abstruct{
 
         <label><input type="checkbox" name="m2a_after_post" value="1" <?= ($value==1)? 'checked' : '' ?>>Show After Post?</label>
         <p class="description">It will trail all post with message box</p>
+        <p class="note"><strong>Note:- </strong> You can put message box anywhere in the website you can use shortcode <code> [message2author]</code> for put anywhere or use PHP <code>&lt;?php echo do_shortcode("[message2author]"); ?&gt;</code></p>
 		<?php
 	}
 
