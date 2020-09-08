@@ -17,25 +17,27 @@ class M2A_Public extends M2A_Abstruct{
 	}
 
 	public function content_filter($content){
+		if( !$this->options('after_post'))
+			return $content;
 		$front_layout = new M2A_Shortcode();
-		if(is_singular() || is_single()):
-			$content .= $front_layout->register_shortcode([]);
+		if(is_singular('post') || is_single()):
+			$content .= $front_layout->render_output();
 		else:
 			$content;
 		endif;
+
 		return $content;
 	}
 
-	public function current_author_posts_filter($query) {
+	public function current_author_posts_filter($query){
 		global $pagenow;
-
-		if( 'edit.php' != $pagenow || !$query->is_admin )
+		if('edit.php'!=$pagenow || !$query->is_admin)
 			return $query;
-
-		if( !current_user_can( 'edit_others_posts' ) ) {
+		if( !current_user_can('edit_others_posts')){
 			global $user_ID;
-			$query->set('author', $user_ID );
+			$query->set('author', $user_ID);
 		}
+
 		return $query;
 	}
 

@@ -17,12 +17,6 @@ class M2A_Abstruct{
 
 	private $options = false;
 
-	protected function error_on(){
-		ini_set('display_errors', '1');
-		ini_set('display_startup_errors', '1');
-		error_reporting(E_ALL);
-	}
-
 	protected function dump($data){
 		if(is_object($data)){
 			$message = '<span class="codelab7-debug-badge codelab7-debug-badge-object">OBJECT</span>';
@@ -121,9 +115,7 @@ class M2A_Abstruct{
 }
 
 /**
- * ToDo:
- * Function proper jagyae mukvu
- *
+ * ToDo: @pathu,   Please add this function into above class and you can use it anywhere by $this->array_trim();
  */
 function array_trim($input) {
 	return is_array($input) ? array_filter($input,

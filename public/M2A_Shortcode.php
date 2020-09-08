@@ -1,22 +1,27 @@
 <?php
 
-
 class M2A_Shortcode extends M2A_Abstruct{
 
-	function register_shortcode($args){
+	public function register_shortcode($args){
 		$this->_handle_args($args);
-		if(isset($_GET['message_sent']) && $_GET['message_sent']==1)
-			return $this->get_success_message();
-
-		$layout = $this->options('layout');
-		if($layout=='messagebox')
-			return $this->message_box_render();
-		elseif($layout=='popup')
-			return $this->popup_render();
+		return $this->render_output();
 	}
 
-	public function get_success_message(){
-		return '<div style="background-color: #cff6cf; color: #111; padding: 20px; text-align: inherit; ">'.$this->options('labels')['success_message'].'</div>';
+	public function render_output(){
+		$options = $this->options();
+		if($options['allow_visitor']=='user' && !is_user_logged_in())
+			return;
+		if($options['allow_visitor']=='visitor' && is_user_logged_in())
+			return;
+		ob_start();
+		if($options['layout']=='messagebox'){
+			require plugin_dir_path(__FILE__).'partials/message-box.php';
+		}
+		elseif($options['layout']=='popup'){
+			add_thickbox();
+			require plugin_dir_path(__FILE__).'partials/popup.php';
+		}
+		return ob_get_clean();
 	}
 
 	private function _handle_args($args){
@@ -24,7 +29,8 @@ class M2A_Shortcode extends M2A_Abstruct{
 		$default_options = [
 			'title'        => $label['title'],
 			'button_label' => $label['button_label'],
-			'style'        => $this->options('layout'),
+			'layout'       => $this->options('layout'),
+			'style'        => $this->options('style'),
 		];
 		$args            = shortcode_atts($default_options, $args);
 
@@ -32,30 +38,13 @@ class M2A_Shortcode extends M2A_Abstruct{
 		if( !in_array($args['style'], $this->get_all_available_options('layout')))
 			$args['style'] = $this->options('layout');
 
+		$this->override_option('layout', $args['layout']);
 		$this->override_option('layout', $args['style']);
 		$this->override_option('labels', [
 			'title'           => $args['title'],
 			'button_label'    => $args['button_label'],
 			'success_message' => $label['success_message']
 		]);
-
-	}
-
-	private function popup_render(){
-		$options = $this->options();
-		add_thickbox();
-		ob_start();
-		require plugin_dir_path(__FILE__).'partials/popup.php';
-
-		return ob_get_clean();
-	}
-
-	private function message_box_render(){
-		$options = $this->options();
-		ob_start();
-		require plugin_dir_path(__FILE__).'partials/message-box.php';
-
-		return ob_get_clean();
 	}
 
 }

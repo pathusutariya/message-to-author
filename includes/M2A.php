@@ -16,29 +16,26 @@ class M2A{
 
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-		$this->loader->add_filter('the_content',$plugin_public,'content_filter');
+		$this->loader->add_filter('the_content', $plugin_public, 'content_filter');
 		// Filter posts for author
-		$this->loader->add_filter('pre_get_posts', $plugin_public,'current_author_posts_filter');
-
+		$this->loader->add_filter('pre_get_posts', $plugin_public, 'current_author_posts_filter');
 
 		$shortcode = new M2A_Shortcode();
 		$this->loader->add_shortcode('message2author', $shortcode, 'register_shortcode');
-
-		$request = new M2A_Request();
-		$this->loader->add_action('admin_post_nopriv_m2a_new_message', $request, 'handle_visitor_message');
-		$this->loader->add_action('admin_post_m2a_new_message', $request, 'handle_message');
-		$this->loader->add_action('wp_ajax_nopriv_m2a_new_message', $request, 'ajax_handle_visitor_message');
-		$this->loader->add_action('wp_ajax_m2a_new_message', $request, 'ajax_handle_message');
-
 	}
 
 	private function define_admin_hooks(){
 		$plugin_admin = new M2A_Admin();
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+		$this->loader->add_filter('plugin_action_links_'.M2A_NAME, $plugin_admin, 'plugin_support_link');
+
 		$messages_cpt = new M2A_cpt_messages();
 		$this->loader->add_action('init', $messages_cpt, 'register_post_type');
 		$this->loader->add_action('add_meta_boxes', $messages_cpt, 'add_meta_box_support');
+		$request = new M2A_Request();
+		$this->loader->add_action('wp_ajax_nopriv_m2a_new_message', $request, 'handle_visitor_message');
+		$this->loader->add_action('wp_ajax_m2a_new_message', $request, 'handle_message');
 	}
 
 	private function create_master_settings(){
@@ -54,9 +51,9 @@ class M2A{
 		require_once M2A_DIR.'admin/M2A_Admin.php';
 		require_once M2A_DIR.'admin/M2A_cpt_messages.php';
 		require_once M2A_DIR.'admin/M2A_cpt_messages.php';
+		require_once M2A_DIR.'admin/M2A_Request.php';
 		require_once M2A_DIR.'public/M2A_Public.php';
 		require_once M2A_DIR.'public/M2A_Shortcode.php';
-		require_once M2A_DIR.'public/M2A_Request.php';
 		require_once M2A_DIR.'public/M2A_Emails.php';
 		$this->loader = new M2A_Loader();
 	}

@@ -56,6 +56,10 @@ class M2A_cpt_messages extends M2A_Abstruct{
 		) );*/
 	}
 
+	/**
+	 * Todo: [Phase2] envlop for message
+	 */
+
 	public function create($title, $content,$author){
 		/**
 		 * todo: Add new post details

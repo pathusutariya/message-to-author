@@ -14,4 +14,12 @@ class M2A_Admin extends M2A_Abstruct {
 
 	}
 
+	public function plugin_support_link($links){
+		$links[] = '<a href="' .
+		           admin_url( 'edit.php?post_type=m2a_messages&page=m2a_settings').
+		           '">' . __('Settings') . '</a>';
+		$links[] = '<a href="https://codelab7.com/wppm2a" target="_blank">' . __('Support') . '</a>';
+		return $links;
+	}
+
 }
