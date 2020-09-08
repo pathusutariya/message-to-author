@@ -75,7 +75,8 @@ class M2A_Abstruct{
 				'button_label'=>'Submit',
 				'success_message'=>'Your message has been send successfully. Author will contact you ASAP.',
 				'popup_button' => 'Open popup'
-			]
+			],
+			'style'=>'style1'
 		];
 	}
 
@@ -99,6 +100,10 @@ class M2A_Abstruct{
 			return $this->options[$name];
 
 		return $this->options;
+	}
+
+	protected function reset_options(){
+		$this->options = [];
 	}
 
 	protected function get_all_available_options($option_name = ''){

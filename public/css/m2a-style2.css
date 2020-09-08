@@ -13,8 +13,9 @@
 .m2a-message.m2a-message-box .form { margin-left: 0;}
 .m2a-message.m2a-message-box .form:after { top: 40px;}
 .m2a-message .form { white-space: nowrap;}
+.m2a-message .form input, .m2a-message textarea{outline: none !important;}
 .m2a-message .form input { margin-top: 15px; margin-bottom: 15px; float: left; width: calc(50% - 7px); height: 50px; min-height: 50px; max-height: 50px; padding: 15px; font-family: inherit;}
-.m2a-message textarea {width: 100%; min-height: 155px; height: 155px; max-height: 155px; padding: 15px; font-family: inherit;}
+.m2a-message textarea {width: 100%; min-height: 155px; height: 155px; max-height: 155px; padding: 15px; font-family: inherit; display: block}
 .m2a-message .form .m2a-subject {margin-right: 7px;}
 .m2a-message .form .m2a-email {margin-left: 7px;}
 .m2a-message .form .m2a-submit {float: none; margin: auto; vertical-align: top; margin-top: 15px; background-color: #145374; border: none;}
@@ -35,8 +36,8 @@
 @media (max-width: 991px) {
     .m2a-message.m2a-popup {padding-top: 20px;}
     .m2a-message .form input {width: 100%;}
-    .m2a-message .form .m2a-subject {margin-right: 0; margin-bottom: 0}
-    .m2a-message .form .m2a-email {margin-left: 0;}
+    .m2a-message .form .m2a-subject {margin-right: 0;}
+    .m2a-message .form .m2a-email {margin-left: 0; margin-top: 0;}
     .m2a-message .form .m2a-subject.full {margin-bottom: 15px;}
     .m2a-message.m2a-popup.login { padding-top: 50px; }
 }

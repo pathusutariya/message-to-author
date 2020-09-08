@@ -36,4 +36,4 @@ if(wp_is_mobile()){
 }
 ?>
 
-<a href="#TB_inline?<?= $style; ?>&inlineId=my-content-id" class="thickbox btn button"><?= $options['labels']['button_label'] ?></a>
+<a href="#TB_inline?<?= $style; ?>&inlineId=my-content-id" class="thickbox btn button"><?= $options['labels']['popup_button'] ?></a>

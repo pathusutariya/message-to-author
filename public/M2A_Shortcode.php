@@ -9,6 +9,7 @@ class M2A_Shortcode extends M2A_Abstruct{
 
 	public function render_output(){
 		$options = $this->options();
+
 		if($options['allow_visitor']=='user' && !is_user_logged_in())
 			return;
 		if($options['allow_visitor']=='visitor' && is_user_logged_in())
@@ -25,6 +26,7 @@ class M2A_Shortcode extends M2A_Abstruct{
 	}
 
 	private function _handle_args($args){
+		$this->reset_options();
 		$label           = $this->options('labels');
 		$default_options = [
 			'title'        => $label['title'],
@@ -33,17 +35,17 @@ class M2A_Shortcode extends M2A_Abstruct{
 			'style'        => $this->options('style'),
 		];
 		$args            = shortcode_atts($default_options, $args);
-
 		//Confirming Style typos
 		if( !in_array($args['style'], $this->get_all_available_options('layout')))
 			$args['style'] = $this->options('layout');
 
 		$this->override_option('layout', $args['layout']);
-		$this->override_option('layout', $args['style']);
+		$this->override_option('style', $args['style']);
 		$this->override_option('labels', [
 			'title'           => $args['title'],
 			'button_label'    => $args['button_label'],
-			'success_message' => $label['success_message']
+			'success_message' => $label['success_message'],
+			'popup_button'=>$label['popup_button'],
 		]);
 	}
 
